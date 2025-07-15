@@ -289,3 +289,158 @@ Sabemos:
 
 ✅ **Conclusão:** `Come(susana, amendoim)` ⇒ ∃x Come(susana, x)
 
+
+## Parte 3 - Clube de Tranca
+
+### Fatos fornecidos:
+
+* Os membros do Clube de Tranca da Rua Etno são: joao, salete, paulo e helena
+* joao é casado com salete
+* paulo é irmão de helena
+* O cônjuge de um membro casado também é membro
+* A última reunião do Clube foi na casa do joao
+
+---
+
+### a) Representação em Lógica de Predicados
+
+**Predicados:**
+
+* `Membro(x)`: x é membro do clube
+* `CasadoCom(x, y)`: x é casado com y
+* `Irmao(x, y)`: x é irmão de y
+* `ReuniaoCasa(x)`: a reunião foi na casa de x
+
+**Fatos:**
+
+1. `Membro(joao) ∧ Membro(salete) ∧ Membro(paulo) ∧ Membro(helena)`
+2. `CasadoCom(joao, salete)`
+3. `Irmao(paulo, helena)`
+4. `∀x∀y (CasadoCom(x, y) → (Membro(x) ∧ Membro(y)))`
+5. `ReuniaoCasa(joao)`
+
+---
+
+### b) Provas
+
+#### Pergunta 1: A última reunião do Clube foi na casa da salete?
+
+Sabemos que:
+
+* `CasadoCom(joao, salete)`
+* `ReuniaoCasa(joao)`
+
+**Hipótese implícita**: Se alguém é casado com outra pessoa e a reunião foi em sua casa, então também pode-se considerar a casa do cônjuge.
+
+Adicionamos:
+
+* `∀x∀y (CasadoCom(x, y) → (ReuniaoCasa(x) → ReuniaoCasa(y)))`
+
+Assim:
+
+* `CasadoCom(joao, salete) ∧ ReuniaoCasa(joao)` ⇒ `ReuniaoCasa(salete)`
+
+✅ **Conclusão:** Sim, a reunião foi na casa da salete.
+
+---
+
+#### Pergunta 2: helena não é casada?
+
+Sabemos:
+
+* `CasadoCom(joao, salete)`
+* Nenhuma outra relação de casamento foi declarada
+
+**Suposição**: `¬∃x CasadoCom(helena, x)`
+
+Nada nos fatos contradiz isso.
+
+✅ **Conclusão:** Podemos inferir que helena não é casada.
+
+---
+
+## Parte 4 - Carlos e Cursos
+
+### Fatos:
+
+* `Gosta(carlos, x)` se `Facil(x)`
+* `Dificil(ciencias)`
+* `∀x (CursoPrendas(x) → Facil(x))`
+* `CursoPrendas(bk301)`
+
+---
+
+### Resolução: De que curso Carlos gostaria?
+
+Sabemos:
+
+* `CursoPrendas(bk301)` ⇒ `Facil(bk301)`
+* `Facil(x)` ⇒ `Gosta(carlos, x)`
+
+Logo:
+
+* `Gosta(carlos, bk301)`
+
+✅ **Conclusão:** Carlos gostaria de **bk301**
+
+---
+
+## Parte 5 - Exame e Felicidade
+
+### Premissas:
+
+1. `Facil(curso) → ∃x (Estudante(x) ∧ Feliz(x, curso))`
+2. `Exame(curso) → ∀x (Estudante(x) → ¬Feliz(x, curso))`
+
+### Objetivo: Mostrar que `Exame(curso) → ¬Facil(curso)`
+
+### Prova por resolução:
+
+1. Suponha `Exame(curso)` e `Facil(curso)`
+2. De (1): `∃x Estudante(x) ∧ Feliz(x, curso)`
+3. De (2): `∀x (Estudante(x) → ¬Feliz(x, curso))`
+
+Contradição: Existe `x` tal que `Feliz(x, curso)` e `¬Feliz(x, curso)`
+
+✅ **Conclusão:** `Exame(curso) → ¬Facil(curso)`
+
+---
+
+## Parte 6 - Golfinhos e Leitura
+
+### Premissas:
+
+1. `∀x (PodeLer(x) → Alfabetizado(x))`
+2. `∃x (Golfinho(x) ∧ Inteligente(x))`
+3. `∀x (Golfinho(x) → ¬Alfabetizado(x))`
+
+### Objetivo: Mostrar que existem coisas inteligentes que nao sabem ler
+
+**Plano:**
+
+* De (1) e (3): `Golfinhos não são alfabetizados ⇒ não podem ler`
+* De (2): Existe um `x` tal que `Inteligente(x) ∧ Golfinho(x)`
+* De (3): `¬Alfabetizado(x)` ⇒ `¬PodeLer(x)`
+
+✅ **Conclusão:** `∃x (Inteligente(x) ∧ ¬PodeLer(x))`
+
+---
+
+## Parte 7 - Velocidade: Cavalos vs Coelhos
+
+### Premissas:
+
+* `∀x (Cavalo(x) → MaisRapido(x, cao))`
+* `∀x (Coelho(x) → ¬MaisRapido(fig, x))`
+* `Cavalo(centelha)`
+* `Coelho(pernalonga)`
+
+### Prova:
+
+1. `Cavalo(centelha)` ⇒ `MaisRapido(centelha, cao)`
+2. `Coelho(pernalonga)` ⇒ `¬MaisRapido(fig, pernalonga)` ⇒ `MaisRapido(pernalonga, fig) = false`
+3. `MaisRapido(centelha, cao)` e `MaisRapido(fig, coelho)` ⇒ `MaisRapido(centelha, pernalonga)`
+
+✅ **Conclusão:** Centelha é mais rápido que Pernalonga
+
+---
