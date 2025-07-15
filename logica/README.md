@@ -190,51 +190,102 @@ Hoje é fim de semana se hoje é sábado ou domingo. Mas hoje não é fim de sem
 
 ---
 
-## Parte 2: Lógica de Predicados - Alimentos e Preferências
+## Parte 2 - Tradução e Resolução em Lógica de Predicados
 
-### Tradução para LP:
+### Sentenças:
 
-* G(x, y): x gosta de y
-* C(x): x é comida
-* Come(x, y): x come y
-* M(x): x morre ao comer y
-* V(x): x está vivo
-
-1. $\forall y\; (C(y) \rightarrow G(Jo\u00e3o, y))$
-2. $C(Ma\u00e7\u00e3)$
-3. $C(Frango)$
-4. $\forall x\; \forall y\; ((Come(x, y) \land \neg M(x)) \rightarrow C(y))$
-5. $Come(Paulo, Amendoim) \land V(Paulo)$
-6. $\forall y\; (Come(Paulo, y) \rightarrow Come(Susana, y))$
-
-### Forma Clausal:
-
-1. $\neg C(y) \lor G(Jo\u00e3o, y)$
-2. $C(Ma\u00e7\u00e3)$
-3. $C(Frango)$
-4. $\neg Come(x, y) \lor M(x) \lor C(y)$
-5. $Come(Paulo, Amendoim)$, $V(Paulo)$
-6. $\neg Come(Paulo, y) \lor Come(Susana, y)$
-
-### a) João gosta de amendoim?
-
-Se C(Amendoim) então G(João, Amendoim)
-Sabemos que Paulo come Amendoim e está vivo: então por (4), Amendoim é comida
-Logo, C(Amendoim) é verdadeiro
-Portanto, G(João, Amendoim)
-
-**Conclusão:** Sim, João gosta de amendoim.
-
-### b) O que Susana come?
-
-Sabemos:
-
-* Paulo come amendoim
-* Tudo que Paulo come, Susana come
-
-Logo:
-$Come(Susana, Amendoim)$
+1. **"Joao gosta de todo tipo de comida"**  
+2. **"Maçã é comida"**  
+3. **"Frango é comida"**  
+4. **"Qualquer coisa que alguém come e que não cause sua morte é comida"**  
+5. **"Paulo come amendoim e ainda está vivo"**  
+6. **"Susana come tudo o que Paulo come"**
 
 ---
 
-*(Demais partes serão adicionadas na próxima iteração deste markdown, incluindo as questões 3 a 19 com resolução via LPO, tableaux, resolução e provas de validade.)*
+### a) Tradução para Lógica de Predicados
+
+**Predicados:**
+
+- `Gosta(x, y)`: x gosta de y  
+- `Comida(y)`: y é comida  
+- `Come(x, y)`: x come y  
+- `Morre(x)`: x morre  
+- `Vivo(x)`: x está vivo  
+
+**Constantes:**
+
+- `joao`, `paulo`, `susana`: pessoas  
+- `maca`, `frango`, `amendoim`: objetos
+
+**Tradução:**
+
+1. `∀y (Comida(y) → Gosta(joao, y))`  
+2. `Comida(maca)`  
+3. `Comida(frango)`  
+4. `∀x ∀y ((Come(x, y) ∧ ¬Morre(x)) → Comida(y))`  
+5. `Come(paulo, amendoim) ∧ Vivo(paulo)`  
+6. `∀y (Come(paulo, y) → Come(susana, y))`
+
+---
+
+### b) Forma Clausulada (Forma Normal Conjuntiva - FNC)
+
+Convertendo as fórmulas para forma clausal:
+
+1. `∀y (¬Comida(y) ∨ Gosta(joao, y))`  
+2. `Comida(maca)`  
+3. `Comida(frango)`  
+4. `∀x ∀y (¬Come(x, y) ∨ Morre(x) ∨ Comida(y))`  
+5. `Come(paulo, amendoim)`  
+6. `Vivo(paulo)`  
+7. `∀y (¬Come(paulo, y) ∨ Come(susana, y))`
+
+**Forma clausal explícita:**
+
+- C1: `¬Comida(y) ∨ Gosta(joao, y)`  
+- C2: `Comida(maca)`  
+- C3: `Comida(frango)`  
+- C4: `¬Come(x, y) ∨ Morre(x) ∨ Comida(y)`  
+- C5: `Come(paulo, amendoim)`  
+- C6: `Vivo(paulo)`  
+- C7: `¬Come(paulo, y) ∨ Come(susana, y)`
+
+---
+
+### c) Joao gosta de amendoim?
+
+Queremos provar: `Gosta(joao, amendoim)`
+
+**Etapas:**
+
+- De C5: `Come(paulo, amendoim)`  
+- De C6: `Vivo(paulo)` → então `¬Morre(paulo)`  
+- De C4 (instanciando x = paulo, y = amendoim):  
+  `¬Come(paulo, amendoim) ∨ Morre(paulo) ∨ Comida(amendoim)`  
+  Como `Come(paulo, amendoim)` e `¬Morre(paulo)` são verdade:  
+  ⇒ `Comida(amendoim)`  
+
+- De C1 (instanciando y = amendoim):  
+  `¬Comida(amendoim) ∨ Gosta(joao, amendoim)`  
+  Sabemos que `Comida(amendoim)` ⇒ `Gosta(joao, amendoim)`
+
+✅ **Conclusão:** Joao gosta de amendoim.
+
+---
+
+### d) O que Susana come?
+
+Queremos provar: `∃x Come(susana, x)`
+
+Sabemos:
+
+- C5: `Come(paulo, amendoim)`  
+- C7: `¬Come(paulo, y) ∨ Come(susana, y)`  
+  (instanciando y = amendoim)  
+  `¬Come(paulo, amendoim) ∨ Come(susana, amendoim)`  
+  Como `Come(paulo, amendoim)` é verdadeiro:  
+  ⇒ `Come(susana, amendoim)`
+
+✅ **Conclusão:** `Come(susana, amendoim)` ⇒ ∃x Come(susana, x)
+
